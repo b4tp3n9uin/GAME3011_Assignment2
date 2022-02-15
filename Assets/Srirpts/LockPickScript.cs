@@ -9,8 +9,12 @@ public class LockPickScript : MonoBehaviour
     [SerializeField]
     float speed = 40;
 
+    float goalPoint;
+    public static int stage;
+
     [Header("Texts")]
     public TextMeshProUGUI currentAngleTxt;
+    public TextMeshProUGUI goalAngleTxt;
 
     Vector3 StartMousePosition;
     Vector3 LastMousePosition;
@@ -20,6 +24,8 @@ public class LockPickScript : MonoBehaviour
     void Start()
     {
         rt = GetComponent<RectTransform>();
+        goalPoint = generateRandomAngle();
+        stage = 0;
     }
 
     // Update is called once per frame
@@ -32,13 +38,22 @@ public class LockPickScript : MonoBehaviour
 
             displayText();
         }
+
+        
     }
 
     void displayText()
     {
-        float angle = rt.rotation.z * 360;
+        float angle = rt.rotation.z * 180;
         
 
         currentAngleTxt.text = "Current Angle: " + (int)angle;
+        goalAngleTxt.text = "Goal Angle: " + (int)goalPoint;
+    }
+
+    float generateRandomAngle()
+    {
+        float goal = Random.Range(-180.0f, 180.0f);
+        return goal;
     }
 }
