@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class LockPickScript : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class LockPickScript : MonoBehaviour
 
     float goalPoint;
     public static int stage;
+    public static int _difficulty;
     bool inRange = false;
 
     [Header("Texts")]
@@ -20,6 +22,9 @@ public class LockPickScript : MonoBehaviour
 
     Vector3 StartMousePosition;
     Vector3 LastMousePosition;
+
+    [Header("ProgressBox")]
+    public Image[] boxArray;
 
     public RectTransform rt;
 
@@ -33,13 +38,18 @@ public class LockPickScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckAngle(rt.rotation.z * 180);
+        
+
         if (Input.GetMouseButtonDown(0))
         {
             if (inRange)
             {
+                boxArray[stage].color = Color.green;
                 Debug.Log("Progress");
                 stage++;
                 goalPoint = generateRandomAngle();
+                displayText();
             }
             
         }
@@ -48,17 +58,13 @@ public class LockPickScript : MonoBehaviour
         {
             float move = speed * Input.GetAxis("Mouse X");
             rt.Rotate(0, 0, move);
-
             displayText();
         }
-
-        
     }
 
     void displayText()
     {
         float angle = rt.rotation.z * 180;
-        CheckAngle(angle);
 
         currentAngleTxt.text = "Current Angle: " + (int)angle;
         goalAngleTxt.text = "Goal Angle: " + (int)goalPoint;
@@ -72,19 +78,37 @@ public class LockPickScript : MonoBehaviour
 
     void CheckAngle(float _angle)
     {
-        float maxRange = goalPoint + 5,
-            minRange = goalPoint - 5;
+        // Easy
+        float maxRange = goalPoint + 15,
+            minRange = goalPoint - 15;
+
+        //Medium
+        if (_difficulty == 1)
+        {
+            maxRange = goalPoint + 9;
+            minRange = goalPoint - 9;
+        }
+
+        //Hard
+        if (_difficulty == 2)
+        {
+            maxRange = goalPoint + 3;
+            minRange = goalPoint - 3;
+        }
+
 
 
         if (_angle > minRange && _angle < maxRange)
         {
             progressTxt.text = "In Target Range";
             inRange = true;
+            boxArray[stage].color = Color.blue;
         }
         else
         {
             inRange = false;
             progressTxt.text = "Not in Range!";
+            boxArray[stage].color = Color.grey;
         }
     }
 }

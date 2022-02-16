@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+enum Difficulty
+{
+    EASY,
+    MEDIUM,
+    HARD
+};
+
 public class GameManager : MonoBehaviour
 {
     public GameObject[] Pannels;
     public GameObject Msg;
+    public GameObject DifficultyPannel;
     float timeLeft = 60;
     bool Play = false;
+
+    Difficulty difficulty;
 
     int level;
 
@@ -26,6 +36,7 @@ public class GameManager : MonoBehaviour
 
         WinPannel.SetActive(false);
         LosePannel.SetActive(false);
+        DifficultyPannel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -48,10 +59,11 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 // activate = true
-                ActivatePannels(true);
+                Msg.SetActive(false);
+                DifficultyPannel.SetActive(true);
             }
         }
-        
+
     }
 
     void ActivatePannels(bool activate)
@@ -67,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     void StartTimer()
     {
-        if (Play && timeLeft > 0)
+        if (timeLeft > 0 && Play)
         {
             timeLeft -= Time.deltaTime;
             timeTxt.text = "Time Left: " + (int)timeLeft;
@@ -90,5 +102,30 @@ public class GameManager : MonoBehaviour
         {
             Pannels[i].SetActive(false);
         }
+    }
+
+
+    public void Easy()
+    {
+        DifficultyPannel.SetActive(false);
+        difficulty = Difficulty.EASY;
+        LockPickScript._difficulty = (int)difficulty;
+        ActivatePannels(true);
+    }
+
+    public void Medium()
+    {
+        DifficultyPannel.SetActive(false);
+        difficulty = Difficulty.MEDIUM;
+        LockPickScript._difficulty = (int)difficulty;
+        ActivatePannels(true);
+    }
+
+    public void Hard()
+    {
+        DifficultyPannel.SetActive(false);
+        difficulty = Difficulty.HARD;
+        LockPickScript._difficulty = (int)difficulty;
+        ActivatePannels(true);
     }
 }
