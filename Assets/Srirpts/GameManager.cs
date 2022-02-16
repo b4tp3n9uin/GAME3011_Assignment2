@@ -10,6 +10,12 @@ public class GameManager : MonoBehaviour
     float timeLeft = 60;
     bool Play = false;
 
+    int level;
+
+    [Header("End Game Pannels")]
+    public GameObject WinPannel;
+    public GameObject LosePannel;
+
     public TextMeshProUGUI timeTxt;
 
     // Start is called before the first frame update
@@ -17,6 +23,9 @@ public class GameManager : MonoBehaviour
     {
         // activate = false
         ActivatePannels(false);
+
+        WinPannel.SetActive(false);
+        LosePannel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -24,6 +33,12 @@ public class GameManager : MonoBehaviour
     {
         PlayGame();
         StartTimer();
+
+        if (LockPickScript.stage > 2)
+        {
+            DeactivateAll();
+            WinPannel.SetActive(true);
+        }
     }
 
     void PlayGame()
@@ -60,6 +75,7 @@ public class GameManager : MonoBehaviour
         else if (timeLeft <= 0)
         {
             DeactivateAll();
+            LosePannel.SetActive(true);
         }
 
     }

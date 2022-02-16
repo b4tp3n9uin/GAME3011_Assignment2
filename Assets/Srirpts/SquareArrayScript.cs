@@ -19,7 +19,7 @@ public class SquareArrayScript : MonoBehaviour
 
     void checkStage()
     {
-        int maxStage = 2;
+        int maxStage = 3;
         for (int i = 0; i < maxStage; i++)
         {
             if (i == LockPickScript.stage)
