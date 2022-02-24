@@ -12,6 +12,7 @@ enum Difficulty
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject Canvas;
     public GameObject[] Pannels;
     public GameObject Msg;
     public GameObject DifficultyPannel;
@@ -102,6 +103,11 @@ public class GameManager : MonoBehaviour
         {
             Pannels[i].SetActive(false);
         }
+    }
+
+    public void Close()
+    {
+        Canvas.SetActive(false);
     }
 
 

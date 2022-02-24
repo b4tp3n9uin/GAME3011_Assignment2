@@ -33,12 +33,13 @@ public class LockPickScript : MonoBehaviour
         rt = GetComponent<RectTransform>();
         goalPoint = generateRandomAngle();
         stage = 0;
+        displayText();
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckAngle(rt.rotation.z * 180);
+        CheckAngle(rt.rotation.z * 180 + 180);
         
 
         if (Input.GetMouseButtonDown(0))
@@ -64,7 +65,7 @@ public class LockPickScript : MonoBehaviour
 
     void displayText()
     {
-        float angle = rt.rotation.z * 180;
+        float angle = rt.rotation.z * 180 + 180;
 
         currentAngleTxt.text = "Current Angle: " + (int)angle;
         goalAngleTxt.text = "Goal Angle: " + (int)goalPoint;
@@ -72,7 +73,7 @@ public class LockPickScript : MonoBehaviour
 
     float generateRandomAngle()
     {
-        float goal = Random.Range(-180.0f, 180.0f);
+        float goal = Random.Range(0.0f, 360.0f);
         return goal;
     }
 
